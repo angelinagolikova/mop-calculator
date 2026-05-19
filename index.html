@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #fdf4ff; min-height: 100vh; padding: 24px 16px; color: #1a1a1a; }
+.wrap { max-width: 660px; margin: 0 auto; }
+
+/* Header */
+.header { text-align: center; margin-bottom: 28px; }
+.badge { display: inline-block; background: linear-gradient(135deg, #fdf4ff, #fce7f3); color: #a21caf; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 12px; }
+h1 { font-size: 23px; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; line-height: 1.25; }
+.subtitle { font-size: 14px; color: #777; line-height: 1.5; }
+
+/* Card */
+.card { background: white; border-radius: 16px; padding: 22px; margin-bottom: 16px; box-shadow: 0 2px 12px rgba(180,0,180,0.06); border: 1px solid #fae8ff; }
+.card-title { font-size: 13px; font-weight: 800; color: #a21caf; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
+
+/* Tabs */
+.tab-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+.tab { flex: 1; padding: 10px 8px; border-radius: 10px; border: 1.5px solid #fae8ff; background: white; font-size: 13px; font-weight: 700; color: #bbb; cursor: pointer; text-align: center; transition: all 0.2s; }
+.tab.active { background: linear-gradient(135deg, #d946ef, #f472b6); color: white; border-color: transparent; }
+
+/* Fields */
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.row:last-child { margin-bottom: 0; }
+.field { }
+.field-label { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 6px; }
+.field-hint { font-size: 11px; color: #bbb; font-weight: 400; margin-left: 2px; }
+.field input { width: 100%; padding: 11px 14px; border: 1.5px solid #fae8ff; border-radius: 10px; font-size: 15px; font-family: inherit; color: #1a1a1a; background: #fdf4ff; outline: none; transition: border 0.2s; font-weight: 600; }
+.field input:focus { border-color: #d946ef; background: white; }
+.field input:disabled { opacity: 0.35; cursor: not-allowed; }
+.divider { border: none; border-top: 1.5px dashed #fae8ff; margin: 18px 0; }
+
+/* Tooltip */
+.tip { position: relative; display: inline-flex; vertical-align: middle; }
+.tip-icon { width: 16px; height: 16px; border-radius: 50%; background: #fae8ff; color: #a21caf; font-size: 9px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; flex-shrink: 0; }
+.tip-box { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: 230px; background: #2d2040; color: #f3e8ff; font-size: 11px; line-height: 1.6; padding: 10px 12px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity 0.18s; z-index: 99; }
+.tip-box::after { content:''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #2d2040; }
+.tip:hover .tip-box, .tip.open .tip-box { opacity: 1; }
+
+/* Funnel */
+.funnel { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+.f-step { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; background: #fdf4ff; border: 1px solid #fae8ff; }
+.f-icon { font-size: 19px; flex-shrink: 0; }
+.f-info { flex: 1; }
+.f-label { font-size: 12px; color: #999; margin-bottom: 2px; }
+.f-val { font-size: 17px; font-weight: 800; color: #1a1a1a; }
+.f-conv { font-size: 11px; font-weight: 700; color: #a21caf; background: #fce7f3; padding: 2px 9px; border-radius: 20px; white-space: nowrap; }
+.f-arrow { text-align: center; color: #e879f9; font-size: 13px; }
+
+/* Result cards */
+.res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.res-card { border-radius: 12px; padding: 14px; text-align: center; }
+.res-card.hi { background: linear-gradient(135deg, #d946ef, #f472b6); }
+.res-card.lo { background: linear-gradient(135deg, #fdf4ff, #fce7f3); }
+.res-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px; }
+.res-card.hi .res-lbl { color: rgba(255,255,255,0.8); }
+.res-card.lo .res-lbl { color: #a21caf; }
+.res-val { font-size: 22px; font-weight: 800; }
+.res-card.hi .res-val { color: white; }
+.res-card.lo .res-val { color: #1a1a1a; }
+.res-sub { font-size: 11px; margin-top: 2px; }
+.res-card.hi .res-sub { color: rgba(255,255,255,0.65); }
+.res-card.lo .res-sub { color: #aaa; }
+
+/* Advice */
+.advice { background: linear-gradient(135deg, #fdf4ff, #fce7f3); border-left: 4px solid #d946ef; border-radius: 0 10px 10px 0; padding: 13px 16px; margin-bottom: 16px; }
+.adv-title { font-size: 12px; font-weight: 700; color: #a21caf; margin-bottom: 8px; }
+.adv-item { font-size: 12px; color: #555; line-height: 1.6; display: flex; gap: 6px; margin-bottom: 7px; }
+.adv-item:last-child { margin-bottom: 0; }
+.adv-item::before { content:'→'; color: #d946ef; flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+.ab { font-weight: 700; color: #a21caf; }
+
+/* Career ladder — статичная справка */
+.career-title { font-size: 12px; font-weight: 800; color: #a21caf; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.career-step { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 11px; background: #fdf4ff; border: 1.5px solid #fae8ff; margin-bottom: 7px; }
+.career-step:last-child { margin-bottom: 0; }
+.career-num { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #fae8ff, #fce7f3); color: #a21caf; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.career-info { flex: 1; }
+.career-role { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+.career-desc { font-size: 11px; color: #aaa; margin-top: 1px; }
+.career-pay { font-size: 12px; font-weight: 800; color: #a21caf; background: #fce7f3; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+
+.footer { text-align: center; font-size: 11px; color: #bbb; margin-top: 20px; padding-bottom: 16px; }
+.footer strong { color: #a21caf; }
+
+@media(max-width:480px){
+  .row { grid-template-columns: 1fr; }
+  .res-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <div class="badge">Для тех, кто выбирает профессию</div>
+  <h1>Сколько зарабатывает менеджер по продажам?</h1>
+  <p class="subtitle">Введи цифры проекта — и узнай сколько нужно диалогов и созвонов, чтобы выйти на нужный доход</p>
+</div>
+
+<!-- Параметры -->
+<div class="card">
+  <div class="card-title">Параметры проекта</div>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="setMode('call')">📞 Продажи на созвонах</div>
+    <div class="tab" onclick="setMode('chat')">💬 Продажи в переписке</div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <div class="field-label">
+        Чек продукта, ₽
+        <span class="tip" onclick="this.classList.toggle('open')">
+          <span class="tip-icon">?</span>
+          <div class="tip-box">Цена продукта или услуги, которую продаёт компания. Ты получаешь % с этой суммы за каждую продажу.</div>
+        </span>
+      </div>
+      <input type="number" id="price" value="30000" oninput="calc()">
+    </div>
+    <div class="field">
+      <div class="field-label">
+        Мой процент, %
+        <span class="tip" onclick="this.classList.toggle('open')">
+          <span class="tip-icon">?</span>
+          <div class="tip-box">Твоё вознаграждение с каждой продажи. В большинстве онлайн-проектов это 10%. Иногда выше, иногда ниже — зависит от проекта.</div>
+        </span>
+      </div>
+      <input type="number" id="pct" value="10" min="1" max="100" oninput="calc()">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <div class="field-label">
+        Диалог → заявка, %
+        <span class="tip" onclick="this.classList.toggle('open')">
+          <span class="tip-icon">?</span>
+          <div class="tip-box"><strong>Диалог</strong> — живой разговор с потенциальным клиентом.<br><br><strong>Заявка</strong> — клиент проявил конкретный интерес: спросил цену, попросил подробности, согласился на созвон.<br><br>При тёплой аудитории норма 30–50%.</div>
+        </span>
+        <span class="field-hint">обычно 30–50%</span>
+      </div>
+      <input type="number" id="conv1" value="40" min="1" max="100" oninput="calc()">
+    </div>
+    <div class="field" id="field-c2">
+      <div class="field-label">
+        Заявка → созвон, %
+        <span class="tip" onclick="this.classList.toggle('open')">
+          <span class="tip-icon">?</span>
+          <div class="tip-box"><strong>Заявка</strong> — клиент согласился поговорить.<br><br><strong>Созвон</strong> — встреча реально состоялась. Часть людей соглашается, но не приходит.<br><br>Норма: 60–80%.</div>
+        </span>
+        <span class="field-hint">обычно 60–80%</span>
+      </div>
+      <input type="number" id="conv2" value="65" min="1" max="100" oninput="calc()">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <div class="field-label">
+        <span id="c3-label">Созвон → продажа, %</span>
+        <span class="tip" onclick="this.classList.toggle('open')">
+          <span class="tip-icon">?</span>
+          <div class="tip-box">Сколько из тех, с кем поговорил, купили. Это главная конверсия — именно она зависит от твоих навыков.<br><br>При хорошем менеджере норма 40–60%.</div>
+        </span>
+        <span class="field-hint">обычно 40–60%</span>
+      </div>
+      <input type="number" id="conv3" value="50" min="1" max="100" oninput="calc()">
+    </div>
+    <div class="field">
+      <div class="field-label">Желаемый доход, ₽</div>
+      <input type="number" id="income" value="100000" oninput="calc()">
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <div class="field">
+      <div class="field-label">
+        Оклад в месяц, ₽
+        <span class="tip" onclick="this.classList.toggle('open')">
+          <span class="tip-icon">?</span>
+          <div class="tip-box">Фиксированная часть зарплаты — если она есть. Если работаешь только за %, оставь 0.<br><br>Оклад + % = итоговый доход.</div>
+        </span>
+        <span class="field-hint">0 если только %</span>
+      </div>
+      <input type="number" id="salary" value="0" min="0" oninput="calc()">
+    </div>
+    <div class="field" style="display:flex;align-items:flex-end">
+      <div style="background:#fdf4ff;border-radius:10px;padding:11px 14px;font-size:12px;color:#999;line-height:1.55;width:100%">
+        Многие компании дают оклад 30–50k + % сверху — это самый распространённый формат на рынке.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Результат -->
+<div class="card">
+  <div class="card-title">Твоя воронка</div>
+  <div class="funnel" id="funnel"></div>
+  <div class="res-grid" id="res-grid"></div>
+  <div class="advice" id="advice"></div>
+</div>
+
+<!-- Карьерная лестница — статичная справка -->
+<div class="card">
+  <div class="career-title">📈 Карьерная лестница — реальные цифры рынка</div>
+
+  <div class="career-step">
+    <div class="career-num">1</div>
+    <div class="career-info">
+      <div class="career-role">Ассистент / новичок</div>
+      <div class="career-desc">Входящие заявки, первые продажи в переписке, изучение продукта</div>
+    </div>
+    <div class="career-pay">40 000 — 60 000 ₽</div>
+  </div>
+
+  <div class="career-step">
+    <div class="career-num">2</div>
+    <div class="career-info">
+      <div class="career-role">Менеджер в переписках</div>
+      <div class="career-desc">Полный цикл в тексте, CRM, база, дожимы, работа с возражениями</div>
+    </div>
+    <div class="career-pay">70 000 — 120 000 ₽</div>
+  </div>
+
+  <div class="career-step">
+    <div class="career-num">3</div>
+    <div class="career-info">
+      <div class="career-role">Менеджер на созвонах</div>
+      <div class="career-desc">Живые диагностики, высокие чеки, несколько проектов параллельно</div>
+    </div>
+    <div class="career-pay">100 000 — 300 000 ₽</div>
+  </div>
+
+  <div class="career-step">
+    <div class="career-num">4</div>
+    <div class="career-info">
+      <div class="career-role">Старший менеджер / тимлид</div>
+      <div class="career-desc">Разбираешь созвоны команды, выстраиваешь процессы, помогаешь расти</div>
+    </div>
+    <div class="career-pay">150 000 — 250 000 ₽</div>
+  </div>
+
+  <div class="career-step">
+    <div class="career-num">5</div>
+    <div class="career-info">
+      <div class="career-role">Руководитель отдела продаж</div>
+      <div class="career-desc">Нанимаешь, обучаешь, ставишь планы, отвечаешь за общую выручку</div>
+    </div>
+    <div class="career-pay">200 000 — 500 000 ₽</div>
+  </div>
+</div>
+
+<div class="footer">Инструмент к курсу <strong>«Профессия: Менеджер по продажам»</strong> · Ангелина Голикова</div>
+</div>
+
+<script>
+let mode = 'call';
+
+function fmt(n)  { return Math.round(n).toLocaleString('ru') + ' ₽'; }
+function fmtN(n) { return Math.ceil(n).toLocaleString('ru'); }
+function getVal(id) { return +document.getElementById(id).value || 0; }
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0 && m==='call') || (i===1 && m==='chat'));
+  });
+  const c2field = document.getElementById('field-c2');
+  c2field.style.opacity = m === 'chat' ? '0.35' : '1';
+  c2field.querySelector('input').disabled = m === 'chat';
+  document.getElementById('c3-label').textContent = m === 'chat'
+    ? 'Заявка → продажа, %'
+    : 'Созвон → продажа, %';
+  calc();
+}
+
+function calc() {
+  const price  = getVal('price');
+  const pct    = getVal('pct') / 100;
+  const c1     = (getVal('conv1') || 1) / 100;
+  const c2     = mode === 'chat' ? 1 : ((getVal('conv2') || 1) / 100);
+  const c3     = (getVal('conv3') || 1) / 100;
+  const salary = getVal('salary');
+  const goal   = getVal('income');
+
+  const earn        = price * pct;
+  if (earn <= 0) return;
+  const salesNeeded = Math.max(1, (goal - salary) / earn);
+  const calls       = salesNeeded / c3;
+  const apps        = mode === 'chat' ? calls : calls / c2;
+  const dialogs     = apps / c1;
+  const totalIncome = salary + salesNeeded * earn;
+
+  // Воронка
+  const steps = mode === 'chat' ? [
+    { icon:'💬', label:'Диалогов в переписке', val: dialogs,     conv: null },
+    { icon:'🎯', label:'Горячих заявок',        val: dialogs*c1,  conv: Math.round(c1*100)+'%' },
+    { icon:'💰', label:'Продаж',                val: salesNeeded, conv: Math.round(c3*100)+'%' },
+  ] : [
+    { icon:'💬', label:'Диалогов / обращений',  val: dialogs,     conv: null },
+    { icon:'📋', label:'Заявок на созвон',       val: apps,        conv: Math.round(c1*100)+'%' },
+    { icon:'📞', label:'Проведённых созвонов',   val: calls,       conv: Math.round(c2*100)+'%' },
+    { icon:'💰', label:'Продаж',                val: salesNeeded, conv: Math.round(c3*100)+'%' },
+  ];
+
+  document.getElementById('funnel').innerHTML = steps.map((s,i) => `
+    <div class="f-step">
+      <div class="f-icon">${s.icon}</div>
+      <div class="f-info">
+        <div class="f-label">${s.label}</div>
+        <div class="f-val">${fmtN(s.val)} в месяц</div>
+      </div>
+      ${s.conv ? `<div class="f-conv">→ ${s.conv}</div>` : ''}
+    </div>
+    ${i < steps.length-1 ? '<div class="f-arrow">↓</div>' : ''}
+  `).join('');
+
+  // Карточки
+  const salaryLine = salary > 0
+    ? `${fmt(salary)} оклад + ${fmt(salesNeeded * earn)} %`
+    : `${fmtN(salesNeeded)} продаж × ${fmt(earn)}`;
+  const main = mode === 'chat'
+    ? { label: 'Диалогов в день', val: Math.ceil(dialogs/22) }
+    : { label: 'Созвонов в день', val: Math.ceil(calls/22) };
+
+  document.getElementById('res-grid').innerHTML = `
+    <div class="res-card hi">
+      <div class="res-lbl">Доход в месяц</div>
+      <div class="res-val">${fmt(totalIncome)}</div>
+      <div class="res-sub">${salaryLine}</div>
+    </div>
+    <div class="res-card lo">
+      <div class="res-lbl">С одной продажи</div>
+      <div class="res-val">${fmt(earn)}</div>
+      <div class="res-sub">${Math.round(pct*100)}% от ${fmt(price)}</div>
+    </div>
+    <div class="res-card lo">
+      <div class="res-lbl">${main.label}</div>
+      <div class="res-val">${main.val}</div>
+      <div class="res-sub">из расчёта 22 рабочих дня</div>
+    </div>
+    <div class="res-card lo">
+      <div class="res-lbl">Диалогов в месяц</div>
+      <div class="res-val">${fmtN(dialogs)}</div>
+      <div class="res-sub">нужно обработать</div>
+    </div>
+  `;
+
+  // Советы
+  const c1p = Math.round(c1*100);
+  const c3p = Math.round(c3*100);
+  const tips = [];
+
+  if (c1p < 30)
+    tips.push(`<span class="ab">Диалог → заявка (${c1p}%)</span> — есть куда расти. При тёплой аудитории норма 30–50%. Чаще всего теряют на скорости ответа и первом сообщении.`);
+  else
+    tips.push(`<span class="ab">Диалог → заявка (${c1p}%)</span> — хороший показатель. Первый контакт работает.`);
+
+  if (c3p < 40)
+    tips.push(`<span class="ab">Закрытие (${c3p}%)</span> — норма 40–60% у хорошего менеджера. Растёт через практику: разбирай каждый отказ и ищи паттерн.`);
+  else
+    tips.push(`<span class="ab">Закрытие (${c3p}%)</span> — сильный результат. Масштабируй поток входящих.`);
+
+  tips.push(`<span class="ab">Дефицит на рынке.</span> Хороших менеджеров по продажам катастрофически не хватает. За ними охотятся, их переманивают и удерживают. Вырасти с ассистента до топ-менеджера реально за 1–1.5 года.`);
+
+  document.getElementById('advice').innerHTML = `
+    <div class="adv-title">💡 Твои точки роста</div>
+    ${tips.map(t => `<div class="adv-item">${t}</div>`).join('')}
+  `;
+}
+
+setMode('call');
+</script>
+</body>
+</html>
