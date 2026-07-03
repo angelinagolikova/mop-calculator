@@ -3,93 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сколько зарабатывает МОП?</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: #fdf4ff; min-height: 100vh; padding: 24px 16px; color: #1a1a1a; }
-.wrap { max-width: 660px; margin: 0 auto; }
+.wrap { max-width: 680px; margin: 0 auto; }
 
-/* Header */
 .header { text-align: center; margin-bottom: 28px; }
-.badge { display: inline-block; background: linear-gradient(135deg, #fdf4ff, #fce7f3); color: #a21caf; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 12px; }
-h1 { font-size: 23px; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; line-height: 1.25; }
-.subtitle { font-size: 14px; color: #777; line-height: 1.5; }
+.badge { display: inline-block; background: linear-gradient(135deg,#fdf4ff,#fce7f3); color: #a21caf; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 12px; }
+h1 { font-size: 23px; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; line-height: 1.3; }
+.subtitle { font-size: 14px; color: #777; line-height: 1.6; }
 
-/* Card */
 .card { background: white; border-radius: 16px; padding: 22px; margin-bottom: 16px; box-shadow: 0 2px 12px rgba(180,0,180,0.06); border: 1px solid #fae8ff; }
-.card-title { font-size: 13px; font-weight: 800; color: #a21caf; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
+.card-title { font-size: 13px; font-weight: 800; color: #a21caf; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; }
+.card-desc { font-size: 12px; color: #999; margin-bottom: 18px; line-height: 1.55; }
 
-/* Tabs */
-.tab-bar { display: flex; gap: 8px; margin-bottom: 20px; }
-.tab { flex: 1; padding: 10px 8px; border-radius: 10px; border: 1.5px solid #fae8ff; background: white; font-size: 13px; font-weight: 700; color: #bbb; cursor: pointer; text-align: center; transition: all 0.2s; }
-.tab.active { background: linear-gradient(135deg, #d946ef, #f472b6); color: white; border-color: transparent; }
+/* Select groups */
+.q-group { margin-bottom: 20px; }
+.q-label { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 10px; }
+.q-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.q-btn { padding: 9px 16px; border: 1.5px solid #fae8ff; border-radius: 10px; background: white; font-size: 13px; font-weight: 600; color: #777; cursor: pointer; transition: all 0.15s; }
+.q-btn:hover { border-color: #d946ef; color: #d946ef; }
+.q-btn.sel { background: linear-gradient(135deg,#d946ef,#f472b6); color: white; border-color: transparent; }
 
-/* Fields */
-.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-.row:last-child { margin-bottom: 0; }
-.field { }
-.field-label { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 6px; }
-.field-hint { font-size: 11px; color: #bbb; font-weight: 400; margin-left: 2px; }
-.field input { width: 100%; padding: 11px 14px; border: 1.5px solid #fae8ff; border-radius: 10px; font-size: 15px; font-family: inherit; color: #1a1a1a; background: #fdf4ff; outline: none; transition: border 0.2s; font-weight: 600; }
-.field input:focus { border-color: #d946ef; background: white; }
-.field input:disabled { opacity: 0.35; cursor: not-allowed; }
-.divider { border: none; border-top: 1.5px dashed #fae8ff; margin: 18px 0; }
+/* Slider */
+.slider-wrap { margin-top: 8px; }
+.slider { width: 100%; accent-color: #d946ef; cursor: pointer; }
+.slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: #bbb; margin-top: 4px; }
+.slider-val { text-align: center; font-size: 20px; font-weight: 800; color: #d946ef; margin-bottom: 6px; }
 
-/* Tooltip */
-.tip { position: relative; display: inline-flex; vertical-align: middle; }
-.tip-icon { width: 16px; height: 16px; border-radius: 50%; background: #fae8ff; color: #a21caf; font-size: 9px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; flex-shrink: 0; }
-.tip-box { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: 230px; background: #2d2040; color: #f3e8ff; font-size: 11px; line-height: 1.6; padding: 10px 12px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity 0.18s; z-index: 99; }
-.tip-box::after { content:''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #2d2040; }
-.tip:hover .tip-box, .tip.open .tip-box { opacity: 1; }
+/* Calc button */
+.calc-btn { width: 100%; padding: 16px; background: linear-gradient(135deg,#d946ef,#f472b6); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; font-family: inherit; cursor: pointer; transition: opacity 0.15s; }
+.calc-btn:hover { opacity: 0.9; }
 
-/* Funnel */
-.funnel { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
-.f-step { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; background: #fdf4ff; border: 1px solid #fae8ff; }
-.f-icon { font-size: 19px; flex-shrink: 0; }
-.f-info { flex: 1; }
-.f-label { font-size: 12px; color: #999; margin-bottom: 2px; }
-.f-val { font-size: 17px; font-weight: 800; color: #1a1a1a; }
-.f-conv { font-size: 11px; font-weight: 700; color: #a21caf; background: #fce7f3; padding: 2px 9px; border-radius: 20px; white-space: nowrap; }
-.f-arrow { text-align: center; color: #e879f9; font-size: 13px; }
+/* Results */
+.results { display: none; }
+.results.show { display: block; }
 
-/* Result cards */
-.res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.res-card { border-radius: 12px; padding: 14px; text-align: center; }
-.res-card.hi { background: linear-gradient(135deg, #d946ef, #f472b6); }
-.res-card.lo { background: linear-gradient(135deg, #fdf4ff, #fce7f3); }
-.res-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px; }
-.res-card.hi .res-lbl { color: rgba(255,255,255,0.8); }
-.res-card.lo .res-lbl { color: #a21caf; }
-.res-val { font-size: 22px; font-weight: 800; }
-.res-card.hi .res-val { color: white; }
-.res-card.lo .res-val { color: #1a1a1a; }
-.res-sub { font-size: 11px; margin-top: 2px; }
-.res-card.hi .res-sub { color: rgba(255,255,255,0.65); }
-.res-card.lo .res-sub { color: #aaa; }
+/* Income cards */
+.income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.inc { border-radius: 12px; padding: 16px; text-align: center; }
+.inc.now { background: linear-gradient(135deg,#fdf4ff,#fce7f3); border: 1px solid #fae8ff; }
+.inc.future { background: linear-gradient(135deg,#d946ef,#f472b6); }
+.inc-label { font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px; }
+.inc.now .inc-label { color: #a21caf; }
+.inc.future .inc-label { color: rgba(255,255,255,0.8); }
+.inc-val { font-size: 24px; font-weight: 800; }
+.inc.now .inc-val { color: #1a1a1a; }
+.inc.future .inc-val { color: white; }
+.inc-sub { font-size: 11px; margin-top: 4px; }
+.inc.now .inc-sub { color: #aaa; }
+.inc.future .inc-sub { color: rgba(255,255,255,0.65); }
 
-/* Advice */
-.advice { background: linear-gradient(135deg, #fdf4ff, #fce7f3); border-left: 4px solid #d946ef; border-radius: 0 10px 10px 0; padding: 13px 16px; margin-bottom: 16px; }
-.adv-title { font-size: 12px; font-weight: 700; color: #a21caf; margin-bottom: 8px; }
-.adv-item { font-size: 12px; color: #555; line-height: 1.6; display: flex; gap: 6px; margin-bottom: 7px; }
-.adv-item:last-child { margin-bottom: 0; }
-.adv-item::before { content:'→'; color: #d946ef; flex-shrink: 0; font-weight: 700; margin-top: 1px; }
-.ab { font-weight: 700; color: #a21caf; }
+/* Daily stats */
+.stats { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.stat-row { display: flex; align-items: center; gap: 12px; background: #fdf4ff; border: 1px solid #fae8ff; border-radius: 10px; padding: 12px 14px; }
+.stat-icon { font-size: 18px; flex-shrink: 0; }
+.stat-info { flex: 1; }
+.stat-name { font-size: 13px; font-weight: 600; color: #333; }
+.stat-hint { font-size: 11px; color: #bbb; margin-top: 2px; }
+.stat-val { font-size: 16px; font-weight: 800; color: #d946ef; flex-shrink: 0; }
 
-/* Career ladder — статичная справка */
-.career-title { font-size: 12px; font-weight: 800; color: #a21caf; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
-.career-step { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 11px; background: #fdf4ff; border: 1.5px solid #fae8ff; margin-bottom: 7px; }
-.career-step:last-child { margin-bottom: 0; }
-.career-num { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #fae8ff, #fce7f3); color: #a21caf; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.career-info { flex: 1; }
-.career-role { font-size: 13px; font-weight: 700; color: #1a1a1a; }
-.career-desc { font-size: 11px; color: #aaa; margin-top: 1px; }
-.career-pay { font-size: 12px; font-weight: 800; color: #a21caf; background: #fce7f3; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+/* Career ladder */
+.ladder { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+.ladder-step { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #fae8ff; background: white; transition: all 0.2s; }
+.ladder-step.active { background: linear-gradient(135deg,#fdf4ff,#fce7f3); border-color: #d946ef; }
+.l-num { width: 26px; height: 26px; border-radius: 50%; background: #fae8ff; color: #a21caf; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ladder-step.active .l-num { background: linear-gradient(135deg,#d946ef,#f472b6); color: white; }
+.l-info { flex: 1; }
+.l-role { font-size: 13px; font-weight: 700; color: #333; }
+.l-desc { font-size: 11px; color: #999; margin-top: 2px; }
+.l-pay { font-size: 13px; font-weight: 800; color: #a21caf; flex-shrink: 0; white-space: nowrap; }
+.l-you { font-size: 10px; background: #d946ef; color: white; padding: 2px 8px; border-radius: 20px; margin-left: 6px; }
+
+/* Insight */
+.insight { background: linear-gradient(135deg,#fff7ed,#ffedd5); border: 1.5px solid #fed7aa; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.insight-title { font-size: 13px; font-weight: 800; color: #c2410c; margin-bottom: 8px; }
+.insight-items { display: flex; flex-direction: column; gap: 6px; }
+.insight-item { font-size: 12px; color: #555; line-height: 1.6; display: flex; gap: 8px; }
+.insight-item::before { content: '→'; color: #d946ef; font-weight: 700; flex-shrink: 0; }
+
+/* CTA */
+.cta { background: linear-gradient(135deg,#fdf4ff,#fce7f3); border: 1.5px solid #e879f9; border-radius: 16px; padding: 20px; text-align: center; }
+.cta-title { font-size: 17px; font-weight: 800; color: #a21caf; margin-bottom: 6px; }
+.cta-sub { font-size: 13px; color: #888; margin-bottom: 16px; line-height: 1.5; }
+.cta-btn { display: inline-block; background: linear-gradient(135deg,#d946ef,#f472b6); color: #fff; font-size: 14px; font-weight: 800; padding: 14px 28px; border-radius: 12px; text-decoration: none; }
+
+.reset-btn { width: 100%; padding: 10px; background: none; border: 1.5px solid #fae8ff; border-radius: 10px; font-size: 13px; font-weight: 700; color: #bbb; font-family: inherit; cursor: pointer; margin-top: 10px; }
+.reset-btn:hover { border-color: #d946ef; color: #d946ef; }
 
 .footer { text-align: center; font-size: 11px; color: #bbb; margin-top: 20px; padding-bottom: 16px; }
-.footer strong { color: #a21caf; }
 
-@media(max-width:480px){
-  .row { grid-template-columns: 1fr; }
-  .res-grid { grid-template-columns: 1fr; }
+@media(max-width:480px) {
+  .income-grid { grid-template-columns: 1fr; }
+  .q-btn { font-size: 12px; padding: 8px 12px; }
 }
 </style>
 </head>
@@ -98,285 +105,244 @@ h1 { font-size: 23px; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; line
 
 <div class="header">
   <div class="badge">Для тех, кто выбирает профессию</div>
-  <h1>Сколько зарабатывает менеджер по продажам?</h1>
-  <p class="subtitle">Введи цифры проекта — и узнай сколько нужно диалогов и созвонов, чтобы выйти на нужный доход</p>
+  <h1>Сколько реально зарабатывает менеджер по продажам?</h1>
+  <p class="subtitle">Ответьте на 3 вопроса — и узнаете, сколько сможете зарабатывать именно вы, с вашей ситуацией</p>
 </div>
 
-<!-- Параметры -->
 <div class="card">
-  <div class="card-title">Параметры проекта</div>
+  <div class="card-title">📋 Ваша ситуация</div>
+  <div class="card-desc">Нет правильных и неправильных ответов — просто выберите то, что ближе к реальности.</div>
 
-  <div class="tab-bar">
-    <div class="tab active" onclick="setMode('call')">📞 Продажи на созвонах</div>
-    <div class="tab" onclick="setMode('chat')">💬 Продажи в переписке</div>
-  </div>
-
-  <div class="row">
-    <div class="field">
-      <div class="field-label">
-        Чек продукта, ₽
-        <span class="tip" onclick="this.classList.toggle('open')">
-          <span class="tip-icon">?</span>
-          <div class="tip-box">Цена продукта или услуги, которую продаёт компания. Ты получаешь % с этой суммы за каждую продажу.</div>
-        </span>
-      </div>
-      <input type="number" id="price" value="30000" oninput="calc()">
-    </div>
-    <div class="field">
-      <div class="field-label">
-        Мой процент, %
-        <span class="tip" onclick="this.classList.toggle('open')">
-          <span class="tip-icon">?</span>
-          <div class="tip-box">Твоё вознаграждение с каждой продажи. В большинстве онлайн-проектов это 10%. Иногда выше, иногда ниже — зависит от проекта.</div>
-        </span>
-      </div>
-      <input type="number" id="pct" value="10" min="1" max="100" oninput="calc()">
+  <!-- Q1 -->
+  <div class="q-group">
+    <div class="q-label">С чего вы начинаете?</div>
+    <div class="q-options">
+      <button class="q-btn sel" data-g="start" data-v="zero">Полный ноль в продажах</button>
+      <button class="q-btn" data-g="start" data-v="some">Что-то продавал(а), но без системы</button>
+      <button class="q-btn" data-g="start" data-v="exp">Есть опыт, хочу прокачаться</button>
     </div>
   </div>
 
-  <div class="row">
-    <div class="field">
-      <div class="field-label">
-        Диалог → заявка, %
-        <span class="tip" onclick="this.classList.toggle('open')">
-          <span class="tip-icon">?</span>
-          <div class="tip-box"><strong>Диалог</strong> — живой разговор с потенциальным клиентом.<br><br><strong>Заявка</strong> — клиент проявил конкретный интерес: спросил цену, попросил подробности, согласился на созвон.<br><br>При тёплой аудитории норма 30–50%.</div>
-        </span>
-        <span class="field-hint">обычно 30–50%</span>
-      </div>
-      <input type="number" id="conv1" value="40" min="1" max="100" oninput="calc()">
-    </div>
-    <div class="field" id="field-c2">
-      <div class="field-label">
-        Заявка → созвон, %
-        <span class="tip" onclick="this.classList.toggle('open')">
-          <span class="tip-icon">?</span>
-          <div class="tip-box"><strong>Заявка</strong> — клиент согласился поговорить.<br><br><strong>Созвон</strong> — встреча реально состоялась. Часть людей соглашается, но не приходит.<br><br>Норма: 60–80%.</div>
-        </span>
-        <span class="field-hint">обычно 60–80%</span>
-      </div>
-      <input type="number" id="conv2" value="65" min="1" max="100" oninput="calc()">
+  <!-- Q2 -->
+  <div class="q-group">
+    <div class="q-label">Сколько часов в день готовы уделять работе МОПа?</div>
+    <div class="slider-wrap">
+      <div class="slider-val" id="hours-val">4 часа в день</div>
+      <input type="range" class="slider" id="hours" min="2" max="8" value="4" step="1" oninput="updateHours()">
+      <div class="slider-labels"><span>2 ч (подработка)</span><span>8 ч (полный день)</span></div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="field">
-      <div class="field-label">
-        <span id="c3-label">Созвон → продажа, %</span>
-        <span class="tip" onclick="this.classList.toggle('open')">
-          <span class="tip-icon">?</span>
-          <div class="tip-box">Сколько из тех, с кем поговорил, купили. Это главная конверсия — именно она зависит от твоих навыков.<br><br>При хорошем менеджере норма 40–60%.</div>
-        </span>
-        <span class="field-hint">обычно 40–60%</span>
-      </div>
-      <input type="number" id="conv3" value="50" min="1" max="100" oninput="calc()">
-    </div>
-    <div class="field">
-      <div class="field-label">Желаемый доход, ₽</div>
-      <input type="number" id="income" value="100000" oninput="calc()">
+  <!-- Q3 -->
+  <div class="q-group">
+    <div class="q-label">Какой формат работы вам ближе?</div>
+    <div class="q-options">
+      <button class="q-btn sel" data-g="format" data-v="chat">💬 Переписка</button>
+      <button class="q-btn" data-g="format" data-v="calls">📞 Созвоны</button>
+      <button class="q-btn" data-g="format" data-v="both">Оба формата</button>
     </div>
   </div>
 
-  <div class="divider"></div>
-
-  <div class="row">
-    <div class="field">
-      <div class="field-label">
-        Оклад в месяц, ₽
-        <span class="tip" onclick="this.classList.toggle('open')">
-          <span class="tip-icon">?</span>
-          <div class="tip-box">Фиксированная часть зарплаты — если она есть. Если работаешь только за %, оставь 0.<br><br>Оклад + % = итоговый доход.</div>
-        </span>
-        <span class="field-hint">0 если только %</span>
-      </div>
-      <input type="number" id="salary" value="0" min="0" oninput="calc()">
-    </div>
-    <div class="field" style="display:flex;align-items:flex-end">
-      <div style="background:#fdf4ff;border-radius:10px;padding:11px 14px;font-size:12px;color:#999;line-height:1.55;width:100%">
-        Многие компании дают оклад 30–50k + % сверху — это самый распространённый формат на рынке.
-      </div>
+  <!-- Q4 -->
+  <div class="q-group">
+    <div class="q-label">Сколько проектов хотите вести?</div>
+    <div class="q-options">
+      <button class="q-btn sel" data-g="projects" data-v="1">1 проект</button>
+      <button class="q-btn" data-g="projects" data-v="2">2–3 проекта</button>
+      <button class="q-btn" data-g="projects" data-v="4">4+ проекта</button>
     </div>
   </div>
+
+  <button class="calc-btn" onclick="calc()">Рассчитать мой доход →</button>
 </div>
 
-<!-- Результат -->
-<div class="card">
-  <div class="card-title">Твоя воронка</div>
-  <div class="funnel" id="funnel"></div>
-  <div class="res-grid" id="res-grid"></div>
-  <div class="advice" id="advice"></div>
+<!-- RESULTS -->
+<div class="results" id="results">
+
+  <div class="card">
+    <div class="card-title">💰 Ваш прогноз дохода</div>
+
+    <div class="income-grid">
+      <div class="inc now">
+        <div class="inc-label">1-й месяц</div>
+        <div class="inc-val" id="r_m1">—</div>
+        <div class="inc-sub">пока нарабатываете базу</div>
+      </div>
+      <div class="inc future">
+        <div class="inc-label">Через 3–6 месяцев</div>
+        <div class="inc-val" id="r_m6">—</div>
+        <div class="inc-sub" id="r_m6_sub">при стабильной работе</div>
+      </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Карьерная лестница — где вы сейчас и куда расти</div>
+    <div class="ladder" id="ladder">
+      <div class="ladder-step" data-level="1">
+        <div class="l-num">1</div>
+        <div class="l-info">
+          <div class="l-role">Ассистент / новичок</div>
+          <div class="l-desc">Входящие заявки, первые продажи в переписке, изучение продукта</div>
+        </div>
+        <div class="l-pay">40–60 000 ₽</div>
+      </div>
+      <div class="ladder-step" data-level="2">
+        <div class="l-num">2</div>
+        <div class="l-info">
+          <div class="l-role">Менеджер в переписках</div>
+          <div class="l-desc">Полный цикл в тексте, CRM, база, дожимы, работа с возражениями</div>
+        </div>
+        <div class="l-pay">70–120 000 ₽</div>
+      </div>
+      <div class="ladder-step" data-level="3">
+        <div class="l-num">3</div>
+        <div class="l-info">
+          <div class="l-role">Менеджер на созвонах</div>
+          <div class="l-desc">Живые диагностики, высокие чеки, несколько проектов параллельно</div>
+        </div>
+        <div class="l-pay">100–300 000 ₽</div>
+      </div>
+      <div class="ladder-step" data-level="4">
+        <div class="l-num">4</div>
+        <div class="l-info">
+          <div class="l-role">Старший менеджер / тимлид</div>
+          <div class="l-desc">Разбираешь созвоны команды, выстраиваешь процессы</div>
+        </div>
+        <div class="l-pay">150–250 000 ₽</div>
+      </div>
+      <div class="ladder-step" data-level="5">
+        <div class="l-num">5</div>
+        <div class="l-info">
+          <div class="l-role">Руководитель отдела продаж</div>
+          <div class="l-desc">Нанимаешь, обучаешь, ставишь планы, отвечаешь за выручку</div>
+        </div>
+        <div class="l-pay">200–500 000 ₽</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight" id="insight">
+    <div class="insight-title" id="insight-title">💡 Что поможет выйти на эти цифры быстрее</div>
+    <div class="insight-items" id="insight-items"></div>
+  </div>
+
+  <div class="cta">
+    <div class="cta-title">Хотите узнать, как зайти в профессию именно с вашей ситуацией?</div>
+    <div class="cta-sub">Запишитесь на бесплатный разбор — разберём ваш старт, расскажем, с чего начать и как быстро выйти на первые деньги</div>
+    <a class="cta-btn" href="https://t.me/aagolikova" target="_blank">Узнать про обучение →</a>
+  </div>
+
+  <button class="reset-btn" onclick="reset()">← Пересчитать</button>
 </div>
 
-<!-- Карьерная лестница — статичная справка -->
-<div class="card">
-  <div class="career-title">📈 Карьерная лестница — реальные цифры рынка</div>
-
-  <div class="career-step">
-    <div class="career-num">1</div>
-    <div class="career-info">
-      <div class="career-role">Ассистент / новичок</div>
-      <div class="career-desc">Входящие заявки, первые продажи в переписке, изучение продукта</div>
-    </div>
-    <div class="career-pay">40 000 — 60 000 ₽</div>
-  </div>
-
-  <div class="career-step">
-    <div class="career-num">2</div>
-    <div class="career-info">
-      <div class="career-role">Менеджер в переписках</div>
-      <div class="career-desc">Полный цикл в тексте, CRM, база, дожимы, работа с возражениями</div>
-    </div>
-    <div class="career-pay">70 000 — 120 000 ₽</div>
-  </div>
-
-  <div class="career-step">
-    <div class="career-num">3</div>
-    <div class="career-info">
-      <div class="career-role">Менеджер на созвонах</div>
-      <div class="career-desc">Живые диагностики, высокие чеки, несколько проектов параллельно</div>
-    </div>
-    <div class="career-pay">100 000 — 300 000 ₽</div>
-  </div>
-
-  <div class="career-step">
-    <div class="career-num">4</div>
-    <div class="career-info">
-      <div class="career-role">Старший менеджер / тимлид</div>
-      <div class="career-desc">Разбираешь созвоны команды, выстраиваешь процессы, помогаешь расти</div>
-    </div>
-    <div class="career-pay">150 000 — 250 000 ₽</div>
-  </div>
-
-  <div class="career-step">
-    <div class="career-num">5</div>
-    <div class="career-info">
-      <div class="career-role">Руководитель отдела продаж</div>
-      <div class="career-desc">Нанимаешь, обучаешь, ставишь планы, отвечаешь за общую выручку</div>
-    </div>
-    <div class="career-pay">200 000 — 500 000 ₽</div>
-  </div>
-</div>
-
-<div class="footer">Инструмент к курсу <strong>«Профессия: Менеджер по продажам»</strong> · Ангелина Голикова</div>
+<div class="footer">Ангелина Голикова · эксперт по продажам и монетизации</div>
 </div>
 
 <script>
-let mode = 'call';
+// State
+const state = { start: 'zero', format: 'chat', projects: '1', hours: 4 };
 
-function fmt(n)  { return Math.round(n).toLocaleString('ru') + ' ₽'; }
-function fmtN(n) { return Math.ceil(n).toLocaleString('ru'); }
-function getVal(id) { return +document.getElementById(id).value || 0; }
-
-function setMode(m) {
-  mode = m;
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    t.classList.toggle('active', (i===0 && m==='call') || (i===1 && m==='chat'));
+// Selectors
+document.querySelectorAll('.q-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const g = btn.dataset.g;
+    document.querySelectorAll(`[data-g="${g}"]`).forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    state[g] = btn.dataset.v;
   });
-  const c2field = document.getElementById('field-c2');
-  c2field.style.opacity = m === 'chat' ? '0.35' : '1';
-  c2field.querySelector('input').disabled = m === 'chat';
-  document.getElementById('c3-label').textContent = m === 'chat'
-    ? 'Заявка → продажа, %'
-    : 'Созвон → продажа, %';
-  calc();
+});
+
+function updateHours() {
+  const v = +document.getElementById('hours').value;
+  state.hours = v;
+  const labels = {2:'2 часа в день',3:'3 часа в день',4:'4 часа в день',5:'5 часов в день',6:'6 часов в день',7:'7 часов в день',8:'8 часов (полный день)'};
+  document.getElementById('hours-val').textContent = labels[v];
+}
+
+function fmt(n) {
+  if (n >= 1000) return Math.round(n/1000) + ' 000 ₽';
+  return n + ' ₽';
 }
 
 function calc() {
-  const price  = getVal('price');
-  const pct    = getVal('pct') / 100;
-  const c1     = (getVal('conv1') || 1) / 100;
-  const c2     = mode === 'chat' ? 1 : ((getVal('conv2') || 1) / 100);
-  const c3     = (getVal('conv3') || 1) / 100;
-  const salary = getVal('salary');
-  const goal   = getVal('income');
+  // Base income month 1
+  const startBase = { zero: 40000, some: 55000, exp: 70000 };
+  const hoursK = state.hours / 4; // 4 часа = 1.0
+  const projK = { '1': 1, '2': 1.7, '4': 2.5 };
+  const formatK = { chat: 1, calls: 1.3, both: 1.5 };
 
-  const earn        = price * pct;
-  if (earn <= 0) return;
-  const salesNeeded = Math.max(1, (goal - salary) / earn);
-  const calls       = salesNeeded / c3;
-  const apps        = mode === 'chat' ? calls : calls / c2;
-  const dialogs     = apps / c1;
-  const totalIncome = salary + salesNeeded * earn;
+  let m1 = Math.round(startBase[state.start] * Math.min(hoursK, 1.5) * Number(projK[state.projects]) / 1000) * 1000;
+  let m6 = Math.round(m1 * formatK[state.format] * 2.2 / 1000) * 1000;
 
-  // Воронка
-  const steps = mode === 'chat' ? [
-    { icon:'💬', label:'Диалогов в переписке', val: dialogs,     conv: null },
-    { icon:'🎯', label:'Горячих заявок',        val: dialogs*c1,  conv: Math.round(c1*100)+'%' },
-    { icon:'💰', label:'Продаж',                val: salesNeeded, conv: Math.round(c3*100)+'%' },
-  ] : [
-    { icon:'💬', label:'Диалогов / обращений',  val: dialogs,     conv: null },
-    { icon:'📋', label:'Заявок на созвон',       val: apps,        conv: Math.round(c1*100)+'%' },
-    { icon:'📞', label:'Проведённых созвонов',   val: calls,       conv: Math.round(c2*100)+'%' },
-    { icon:'💰', label:'Продаж',                val: salesNeeded, conv: Math.round(c3*100)+'%' },
-  ];
+  // Caps
+  const caps = { zero: [80000, 250000], some: [120000, 350000], exp: [180000, 500000] };
+  m1 = Math.min(m1, caps[state.start][0]);
+  m6 = Math.min(m6, caps[state.start][1]);
 
-  document.getElementById('funnel').innerHTML = steps.map((s,i) => `
-    <div class="f-step">
-      <div class="f-icon">${s.icon}</div>
-      <div class="f-info">
-        <div class="f-label">${s.label}</div>
-        <div class="f-val">${fmtN(s.val)} в месяц</div>
-      </div>
-      ${s.conv ? `<div class="f-conv">→ ${s.conv}</div>` : ''}
-    </div>
-    ${i < steps.length-1 ? '<div class="f-arrow">↓</div>' : ''}
-  `).join('');
+  // Format income display
+  const fmtRange = (n) => {
+    const lo = Math.round(n * 0.85 / 1000) * 1000;
+    const hi = Math.round(n * 1.15 / 1000) * 1000;
+    return `${Math.round(lo/1000)} 000 – ${Math.round(hi/1000)} 000 ₽`;
+  };
 
-  // Карточки
-  const salaryLine = salary > 0
-    ? `${fmt(salary)} оклад + ${fmt(salesNeeded * earn)} %`
-    : `${fmtN(salesNeeded)} продаж × ${fmt(earn)}`;
-  const main = mode === 'chat'
-    ? { label: 'Диалогов в день', val: Math.ceil(dialogs/22) }
-    : { label: 'Созвонов в день', val: Math.ceil(calls/22) };
+  document.getElementById('r_m1').textContent = fmtRange(m1);
+  document.getElementById('r_m6').textContent = fmtRange(m6);
+  document.getElementById('r_m6_sub').textContent = state.projects === '4' ? 'несколько проектов параллельно' : 'при стабильной работе';
 
-  document.getElementById('res-grid').innerHTML = `
-    <div class="res-card hi">
-      <div class="res-lbl">Доход в месяц</div>
-      <div class="res-val">${fmt(totalIncome)}</div>
-      <div class="res-sub">${salaryLine}</div>
-    </div>
-    <div class="res-card lo">
-      <div class="res-lbl">С одной продажи</div>
-      <div class="res-val">${fmt(earn)}</div>
-      <div class="res-sub">${Math.round(pct*100)}% от ${fmt(price)}</div>
-    </div>
-    <div class="res-card lo">
-      <div class="res-lbl">${main.label}</div>
-      <div class="res-val">${main.val}</div>
-      <div class="res-sub">из расчёта 22 рабочих дня</div>
-    </div>
-    <div class="res-card lo">
-      <div class="res-lbl">Диалогов в месяц</div>
-      <div class="res-val">${fmtN(dialogs)}</div>
-      <div class="res-sub">нужно обработать</div>
-    </div>
-  `;
+  // Daily stats
+  const dialogs = state.format === 'calls' ? 0 : Math.round(state.hours * 3 * Number(projK[state.projects]));
+  const calls = state.format === 'chat' ? 0 : Math.round(state.hours * 1.5 * (state.projects === '1' ? 1 : 1.5));
+  const perHour = Math.round(m6 / (state.hours * 22));
 
-  // Советы
-  const c1p = Math.round(c1*100);
-  const c3p = Math.round(c3*100);
+  let statsHtml = '';
+  if (dialogs > 0) statsHtml += `<div class="stat-row"><div class="stat-icon">💬</div><div class="stat-info"><div class="stat-name">Диалогов в день</div><div class="stat-hint">переписки с потенциальными клиентами</div></div><div class="stat-val">~${dialogs}</div></div>`;
+  if (calls > 0) statsHtml += `<div class="stat-row"><div class="stat-icon">📞</div><div class="stat-info"><div class="stat-name">Созвонов в день</div><div class="stat-hint">диагностики и продающие звонки</div></div><div class="stat-val">~${calls}</div></div>`;
+  statsHtml += `<div class="stat-row"><div class="stat-icon">⏱</div><div class="stat-info"><div class="stat-name">Доход в час</div><div class="stat-hint">через 3–6 месяцев, при ${state.hours} часах работы</div></div><div class="stat-val">~${fmt(perHour)}</div></div>`;
+  document.getElementById('stats').innerHTML = statsHtml;
+
+  // Career level highlight
+  let level = 1;
+  if (state.start === 'exp' || state.format === 'both') level = 3;
+  else if (state.start === 'some' || state.format === 'calls') level = 2;
+  if (state.projects === '4') level = Math.min(level + 1, 4);
+
+  document.querySelectorAll('.ladder-step').forEach(s => {
+    s.classList.remove('active');
+    s.querySelector('.l-you') && s.querySelector('.l-you').remove();
+  });
+  const activeStep = document.querySelector(`[data-level="${level}"]`);
+  if (activeStep) {
+    activeStep.classList.add('active');
+    const tag = document.createElement('span');
+    tag.className = 'l-you';
+    tag.textContent = 'Вы здесь';
+    activeStep.querySelector('.l-pay').after(tag);
+  }
+
+  // Insights
   const tips = [];
+  if (state.start === 'zero') tips.push('Первые 2–4 недели — самое важное. Именно сейчас нарабатывается база и первые навыки. Не ждите идеальных условий.');
+  if (state.format === 'chat') tips.push('Переписка — самый быстрый старт. Но освоив созвоны, вы увеличите доход в 1.5–2 раза: высокочековые проекты закрываются голосом.');
+  if (state.format === 'calls') tips.push('Созвоны дают более высокий чек с продажи. Главное — структура разговора и уверенное ведение клиента к решению.');
+  if (state.projects === '1') tips.push('Один проект — хороший старт. Когда освоитесь, добавьте второй — доход вырастет непропорционально времени.');
+  if (state.projects === '4') tips.push('Несколько проектов параллельно — это максимум дохода. Важно выстроить систему, чтобы не потерять качество.');
+  if (state.hours <= 3) tips.push('2–3 часа в день — рабочий формат для подработки. Первые деньги придут, но рост будет медленнее. Как только войдёте во вкус — легко расширить.');
+  if (state.hours >= 6) tips.push('Полный день — это серьёзный подход. При такой загрузке доход выйдет на стабильный уровень быстрее, чем у большинства.');
 
-  if (c1p < 30)
-    tips.push(`<span class="ab">Диалог → заявка (${c1p}%)</span> — есть куда расти. При тёплой аудитории норма 30–50%. Чаще всего теряют на скорости ответа и первом сообщении.`);
-  else
-    tips.push(`<span class="ab">Диалог → заявка (${c1p}%)</span> — хороший показатель. Первый контакт работает.`);
+  document.getElementById('insight-items').innerHTML = tips.map(t => `<div class="insight-item">${t}</div>`).join('');
 
-  if (c3p < 40)
-    tips.push(`<span class="ab">Закрытие (${c3p}%)</span> — норма 40–60% у хорошего менеджера. Растёт через практику: разбирай каждый отказ и ищи паттерн.`);
-  else
-    tips.push(`<span class="ab">Закрытие (${c3p}%)</span> — сильный результат. Масштабируй поток входящих.`);
-
-  tips.push(`<span class="ab">Дефицит на рынке.</span> Хороших менеджеров по продажам катастрофически не хватает. За ними охотятся, их переманивают и удерживают. Вырасти с ассистента до топ-менеджера реально за 1–1.5 года.`);
-
-  document.getElementById('advice').innerHTML = `
-    <div class="adv-title">💡 Твои точки роста</div>
-    ${tips.map(t => `<div class="adv-item">${t}</div>`).join('')}
-  `;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-setMode('call');
+function reset() {
+  document.getElementById('results').classList.remove('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 </body>
 </html>
